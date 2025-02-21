@@ -16,19 +16,9 @@ function App() {
       const res = await axios.post(apiEndpoint, parsedData);
       setApiResponse(res.data);
     } catch (error) {
-      alert("Invalid JSON format or server error!")
-      console.log(error)
-      
+      alert("Invalid JSON format or server error!");
+      console.log(error);
     }
-  };
-
-  const getFilteredResults = () => {
-    if (!apiResponse) return {};
-    let filteredData = {};
-    selectedFilters.forEach((filter) => {
-      filteredData[filter.value] = apiResponse[filter.value];
-    });
-    return filteredData;
   };
 
   const filterOptions = [
@@ -57,17 +47,19 @@ function App() {
           <h3>Filter Output</h3>
           <Select options={filterOptions} isMulti onChange={setSelectedFilters} />
           <div style={{ textAlign: "left", marginTop: "10px" }}>
-  <h4>Filtered Response</h4>
-  {selectedFilters.map((filter) => (
-    <p key={filter.value}>
-      <strong>{filter.label}:</strong> {Array.isArray(apiResponse[filter.value]) ? apiResponse[filter.value].join(", ") : apiResponse[filter.value]}
-    </p>
-  ))}
-</div>
-
-          {/* <pre style={{ textAlign: "left", marginTop: "10px" }}>
-            {JSON.stringify(getFilteredResults(), null, 2)}
-          </pre> */}
+            <h4>Filtered Response</h4>
+            {selectedFilters.map(
+              (filter) =>
+                apiResponse[filter.value] !== undefined && (
+                  <p key={filter.value}>
+                    <strong>{filter.label}:</strong>{" "}
+                    {Array.isArray(apiResponse[filter.value])
+                      ? apiResponse[filter.value].join(", ")
+                      : apiResponse[filter.value]}
+                  </p>
+                )
+            )}
+          </div>
         </>
       )}
     </div>
